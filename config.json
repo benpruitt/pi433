@@ -1,0 +1,45 @@
+{
+    "switches": [
+        {
+            "name": "left couch light",
+            "port": 43301,
+            "on_code": 4478259,
+            "off_code": 4478268
+        },
+        {
+            "name": "right couch light",
+            "port": 43302,
+            "on_code": 4478403,
+            "off_code": 4478412
+        },
+        {
+            "name": "tv light",
+            "port": 43303,
+            "on_code": 4478723,
+            "off_code": 4478732
+        },
+        {
+            "name": "kitchen light",
+            "port": 43304,
+            "on_code": 4486403,
+            "off_code": 4486412
+        }
+    ],
+    "groups": [
+        {
+            "name": "couch lights",
+            "port": 43351,
+            "switches": ["left couch light", "right couch light"]
+        },
+        {
+            "name": "living room lights",
+            "port": 43352,
+            "switches": ["left couch light", "right couch light", "tv light"]
+        },
+        {
+            "name": "all of the lights",
+            "port": 43353,
+            "switches": ["left couch light", "right couch light", "tv light", "kitchen light"]
+        }
+    ]
+}

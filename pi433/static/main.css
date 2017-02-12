@@ -1,0 +1,69 @@
+.btn {
+display: flex;
+overflow: hidden;
+
+margin: 10px;
+padding: 12px 12px;
+
+cursor: pointer;
+user-select: none;
+transition: all 60ms ease-in-out;
+text-align: center;
+white-space: nowrap;
+text-decoration: none !important;
+text-transform: none;
+text-transform: capitalize;
+
+color: #fff;
+border: 0 none;
+border-radius: 4px;
+
+font-family: Arial;
+font-size: 24px;
+font-weight: 500;
+line-height: 1.3;
+
+-webkit-appearance: none;
+-moz-appearance:    none;
+appearance:         none;
+
+justify-content: center;
+align-items: center;
+flex: 0 0 120px;
+
+}
+
+.btn.green {
+  background: #85a874;
+}
+
+.btn.red {
+  background: #a66c6c;
+}
+
+.btn.blue {
+  background: #7288b3;
+}
+
+.btn.grey {
+  background: #849cad;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.stitle {
+  font-family: Arial;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+}

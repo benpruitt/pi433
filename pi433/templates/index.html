@@ -1,0 +1,74 @@
+<!doctype html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+  <link rel="stylesheet" type="text/css" href="static/main.css">
+
+  <script>
+    function switchBtnClick() {
+      document.getElementById('switch-container')
+        .setAttribute('style', 'display: block');
+      document.getElementById('group-container')
+        .setAttribute('style', 'display: none');
+      document.getElementById('switch-btn').className = 'btn grey';
+      document.getElementById('group-btn').className = 'btn blue';
+    }
+
+    function groupBtnClick() {
+      document.getElementById('switch-container')
+        .setAttribute('style', 'display: none');
+      document.getElementById('group-container')
+        .setAttribute('style', 'display: block');
+      document.getElementById('switch-btn').className = 'btn blue';
+      document.getElementById('group-btn').className = 'btn grey';
+    }
+
+  function httpGetAsync(theUrl)
+  {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", theUrl, true);
+      xmlHttp.send(null);
+      return false;
+  }
+  </script>
+
+  <title>pi433 control</title>
+
+</head>
+
+<body>
+  <div class='container'>
+    <div class='row'>
+      <a id='switch-btn' onclick='switchBtnClick()' class='btn grey'>Switches</a>
+      <a id='group-btn' onclick='groupBtnClick()' class='btn blue'>Groups</a>
+    </div>
+    <!-- Switch controls -->
+    <div id="switch-container">
+      {% for switch in switches.values() %}
+        <hr>
+        <div class='row'>
+          <a class='stitle'>{{ switch.name }}</a>
+        </div>
+        <div class='row'>
+          <a class='btn green' onclick='httpGetAsync("/ts/{{ switch.name.replace(" ", "-") |safe}}/1")'>On</a>
+          <a class='btn red' onclick='httpGetAsync("/ts/{{ switch.name.replace(" ", "-") |safe}}/0")'>Off</a>
+        </div>
+      {% endfor %}
+    </div>
+    <!-- Group controls -->
+    <div id="group-container" style='display: none;'>
+      {% for group in groups.values() %}
+        <hr>
+        <div class='row'>
+          <a class='stitle'>{{ group.name }}</a>
+        </div>
+        <div class='row'>
+          <a class='btn green' onclick='httpGetAsync("/tg/{{ group.name.replace(" ", "-") }}/1")'>On</a>
+          <a class='btn red' onclick='httpGetAsync("/tg/{{ group.name.replace(" ", "-") }}/0")'>Off</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+
+
