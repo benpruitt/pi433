@@ -8,18 +8,20 @@ Utility / helper functions
 import uuid
 from gevent import socket
 
-def byteify(input):
+
+def byteify(str_input):
     ''' Recursively encode any `unicode` strings in `str_input` to utf-8
     '''
-    if isinstance(input, dict):
+    if isinstance(str_input, dict):
         return {byteify(key): byteify(value)
-                for key, value in input.iteritems()}
-    elif isinstance(input, list):
-        return [byteify(element) for element in input]
-    elif isinstance(input, unicode):
-        return input.encode('utf-8')
+                for key, value in str_input.iteritems()}
+    elif isinstance(str_input, list):
+        return [byteify(element) for element in str_input]
+    elif isinstance(str_input, unicode):
+        return str_input.encode('utf-8')
     else:
-        return input
+        return str_input
+
 
 def makeSerial(dev_name):
     ''' Generate a deterministic UUID serial number from `dev_name`
