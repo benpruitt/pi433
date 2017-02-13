@@ -26,7 +26,7 @@ control code and PCB designs.
 The latest Rasbian image should include several of the dependencies, including
 `RPi-GPIO` and `wiringPi`. The wifi on the Pi zero daughterboard is provided
 by an ESP-12F that the Broadcom chip talks to over an SDIO interface. Here
-are instructions for updating the device tree & recompiling the kernal to
+are instructions for updating the device tree & building the module to
 support the ESP-12F: https://oshlab.com/esp8266-raspberry-pi-gpio-wifi/
 
 After following the above instructions just set up wifi as usual by editing
