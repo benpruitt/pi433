@@ -1,11 +1,13 @@
 # pi433
 
+<img src="pi433_pcb.jpg" width="400" /><img src="pi433_brd.png" width="350" />
+
 Raspberry Pi Zero-based Etekcity 433 MHz wireless outlet control. Repo contains
 control code and PCB designs.
 
 ## Features
 
-* On/off countrol of Etekcity 433 MHz outlets
+* On/off control of Etekcity 433 MHz outlets
 * Configurable via a single JSON file
 * Ability to group switches into functional groups (e.g., "living room lights")
 * Integration with Amazon Echo voice control
@@ -21,8 +23,25 @@ control code and PCB designs.
 
 ## Installation
 
+The latest Rasbian image should include several of the dependencies, including
+`RPi-GPIO` and `wiringPi`. The wifi on the Pi zero daughterboard is provided
+by an ESP-12F that the Broadcom chip talks to over an SDIO interface. Here
+are instructions for updating the device tree & recompiling the kernal to
+support the ESP-12F: https://oshlab.com/esp8266-raspberry-pi-gpio-wifi/
+
+After following the above instructions just set up wifi as usual by editing
+`/etc/network/interfaces` and `/etc/wpa_supplicant/wpa_supplicant.conf`.
+
+Next install the remaining python dependencies. I would recommend using
+`apt-get` rather than `pip` (to avoid compile times) if you don't mind
+installing in your system site packages directory.
+
+Finally:
+
 `sudo python install.py`
 _(admin privileges necessary to install systemd service)_
+
+## Installation notes
 
 `pi433` is tested on Raspian under the system Python (2.7.7) / in a
 virtual env. `pi433` is not installed into the Python site packages
