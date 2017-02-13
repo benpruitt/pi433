@@ -22,7 +22,7 @@ cdef extern from "wiringPi.h":
     cdef int wiringPiSetup() nogil
 
 
-def sendRFCode(rf_code, pulse_length=185, pin=0):
+def sendRFCode(rf_code, pulse_length=185, pin=0, repeats=3):
     ''' Send `rf_code` with `pulse_length` over `pin`
 
     Args:
@@ -33,6 +33,7 @@ def sendRFCode(rf_code, pulse_length=185, pin=0):
     cdef RCSwitch *switch = new RCSwitch()
     switch.setPulseLength(185)
     switch.enableTransmit(0)
+    switch.setRepeatTransmit(repeats)
     switch.send(rf_code, 24)
     del switch
 

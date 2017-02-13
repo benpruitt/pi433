@@ -112,15 +112,17 @@ class EtekcitySwitch(BaseSwitch):
         self.off_code = off_code
         EtekcitySwitch.SWITCHES[self.name] = self
 
-    def turnOn(self):
-        blinkStatusLED()
+    def turnOn(self, blink_led=True):
         sendRFCode(self.on_code)
         logging.info('Turned switch %s on', self.name)
+        if blink_led:
+            blinkStatusLED()
 
-    def turnOff(self):
-        blinkStatusLED()
+    def turnOff(self, blink_led=True):
         sendRFCode(self.off_code)
         logging.info('Turned switch %s off', self.name)
+        if blink_led:
+            blinkStatusLED()
 
 
 class SwitchGroup(BaseSwitch):
@@ -139,12 +141,16 @@ class SwitchGroup(BaseSwitch):
             raise ValueError('Invalid switch name in %s' % repr(switch_names))
         SwitchGroup.GROUPS[self.name] = self
 
-    def turnOn(self):
+    def turnOn(self, blink_led=True):
         for sw in self.switches:
-            sw.turnOn()
+            sw.turnOn(blink_led=False)
         logging.info('Turned group %s on', self.name)
+        if blink_led:
+            blinkStatusLED()
 
-    def turnOff(self):
+    def turnOff(self, blink_led=True):
         for sw in self.switches:
-            sw.turnOff()
+            sw.turnOff(blink_led=False)
         logging.info('Turned group %s off', self.name)
+        if blink_led:
+            blinkStatusLED()

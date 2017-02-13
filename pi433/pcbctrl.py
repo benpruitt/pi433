@@ -42,7 +42,7 @@ def turnStatusLEDOff():
     GPIO.output(STATUS_LED_PIN, 0)
 
 
-def blinkStatusLED(blink_str='010101', blink_rate=0.1):
+def blinkStatusLED(blink_str='0101', blink_rate=0.05):
     ''' Blink the green status LED
 
     Args:
