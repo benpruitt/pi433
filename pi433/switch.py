@@ -49,6 +49,7 @@ class BaseSwitch(object):
             logging.info('Received Echo on request for "%s"', self.name)
             self.turnOn()
         date_str = formatdate(timeval=None, localtime=False, usegmt=True)
+        # from https://github.com/n8henrie/fauxmo
         response = '\r\n'.join([
                 'HTTP/1.1 200 OK',
                 'CONTENT-LENGTH: 0',
@@ -63,7 +64,7 @@ class BaseSwitch(object):
 
     def _handleSetup(self, c_sock):
         date_str = formatdate(timeval=None, localtime=False, usegmt=True)
-
+        # from https://github.com/n8henrie/fauxmo
         setup_xml = '\r\n'.join([
                '<?xml version="1.0"?>',
                '<root>',
@@ -77,7 +78,7 @@ class BaseSwitch(object):
                '</device>',
                '</root>']) + 2 * '\r\n'
 
-        # Made as a separate string because it requires `len(setup_xml)`
+        # from https://github.com/n8henrie/fauxmo
         setup_response = '\r\n'.join([
                'HTTP/1.1 200 OK',
                'CONTENT-LENGTH: {}'.format(len(setup_xml)),

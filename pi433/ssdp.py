@@ -54,6 +54,7 @@ class SSDPServer(object):
 
                 date_str = formatdate(timeval=None, localtime=False,
                                       usegmt=True)
+                # from https://github.com/n8henrie/fauxmo
                 response = '\r\n'.join([
                         'HTTP/1.1 200 OK',
                         'CACHE-CONTROL: max-age=86400',
