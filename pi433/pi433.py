@@ -11,11 +11,12 @@ import os
 import sys
 import time
 
-from gevent import spawn, joinall, sleep
+from pyhap.accessory import Accessory, Bridge
+from pyhap.accessory_driver import AccessoryDriver
 
-from .switch import EtekcitySwitch, SwitchGroup
+from .output import EtekcityOutlet
 from .pcbctrl import turn12VOn, turnStatusLEDOn
-from .webserver import initServer
+from .webserver import runServer
 from .util import byteify, getLocalIP
 
 FORMAT = "[pi433] %(asctime)-15s :: %(message)s"
@@ -26,7 +27,7 @@ DEFAULT_CONFIG_FP = os.path.expanduser('~/.pi433/config.json')
 
 
 def startPi433(config_fp=DEFAULT_CONFIG_FP):
-    switches = []
+    outlets = []
     groups = []
 
     # Wait for the network to come up
@@ -43,35 +44,37 @@ def startPi433(config_fp=DEFAULT_CONFIG_FP):
 
     # Load config file from fp
     with open(config_fp) as fh:
-        config_dict = byteify(json.load(fh))
+        config_dict = json.load(fh)
 
     # Init switch objects
-    for switch_cf in config_dict.get('switches', []):
-        switches.append(
-            EtekcitySwitch(
-                switch_cf['name'],
-                switch_cf['port'],
-                switch_cf['on_code'],
-                switch_cf['off_code']
-            )
+    bridge = Bridge(driver, 'pi433 Bridge')
+    for outlet_cf in config_dict.get('switches', []):
+        outlet = EtekcityOutlet(
+            outlet_cf['name'],
+            outlet_cf['on_code'],
+            outlet_cf['off_code']
         )
+        bridge.add_accessory(outlet)
+        outlets.append(outlet)
 
     # Init group objects
-    for group_cf in config_dict.get('groups', []):
-        groups.append(
-            SwitchGroup(
-                group_cf['name'],
-                group_cf['port'],
-                group_cf['switches']
-            )
-        )
-    # Init webserver
-    webserver = initServer()
+    # for group_cf in config_dict.get('groups', []):
+    #     groups.append(
+    #         SwitchGroup(
+    #             group_cf['name'],
+    #             group_cf['port'],
+    #             group_cf['switches']
+    #         )
+    #     )
     # Spin up greenlets
-    glts = [spawn(s.run) for s in (switches + groups)]
+    # glts = [spawn(s.run) for s in (switches + groups)]
     # Turn on 12V boost converter and status LED
     turn12VOn()
     turnStatusLEDOn()
-    logging.info('Switch servers started')
-    webserver.serve_forever()
-    joinall(glts)
+    # logging.info('Switch servers started')
+    driver = AccessoryDriver(pincode='777-77-777', persist_file='pi433.state')
+    driver.add_accessory(accessory=get_bridge(driver))
+    signal.signal(signal.SIGTERM, driver.signal_handler)
+    driver.start()
+    # runWebServer()
+    # joinall(glts)
