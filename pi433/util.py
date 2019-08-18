@@ -23,18 +23,6 @@ def byteify(str_input):
         return str_input
 
 
-def makeSerial(dev_name):
-    ''' Generate a deterministic UUID serial number from `dev_name`
-
-    Args:
-        dev_name (str): Unique device name
-
-    Derived from https://github.com/n8henrie/fauxmo
-    '''
-
-    return str(uuid.uuid3(uuid.NAMESPACE_X500, dev_name))
-
-
 def getLocalIP():
     ''' Get the local IP address as a string
 
