@@ -7,11 +7,11 @@ Lightweight mobile web interface
 '''
 
 import logging
-from flask import Flask, render_template
-from gevent.wsgi import WSGIServer
+from quart import Quart, render_template
 
 from .switch import EtekcitySwitch, SwitchGroup
 from .util import getLocalIP
+
 
 class LogWrap(object):
 
@@ -19,7 +19,9 @@ class LogWrap(object):
     def write(msg):
         logging.info(msg)
 
-app = Flask(__name__)
+
+app = Quart(__name__)
+
 
 @app.route('/')
 def main():
@@ -50,7 +52,7 @@ def toggleGroup(esc_group_name, state):
     return ''
 
 
-def initServer():
-    wserver = WSGIServer((getLocalIP(), 80), app,
-                         log=LogWrap)
-    return wserver
+def runWebServer():
+    ''' Start the quart server. Blocks until SIGINT
+    '''
+    app.run(host=getLocalIP(), port=8080)
