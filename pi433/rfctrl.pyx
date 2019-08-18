@@ -31,7 +31,7 @@ def sendRFCode(rf_code, pulse_length=185, pin=0, repeats=3):
         pin (int): wiringPi pin number attached to 433 MHz transmitter
     '''
     cdef RCSwitch *switch = new RCSwitch()
-    switch.setPulseLength(185)
+    switch.setPulseLength(pulse_length)
     switch.enableTransmit(0)
     switch.setRepeatTransmit(repeats)
     switch.send(rf_code, 24)
