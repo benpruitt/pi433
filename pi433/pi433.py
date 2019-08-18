@@ -14,7 +14,6 @@ import time
 from gevent import spawn, joinall, sleep
 
 from .switch import EtekcitySwitch, SwitchGroup
-from .ssdp import SSDPServer
 from .pcbctrl import turn12VOn, turnStatusLEDOn
 from .webserver import initServer
 from .util import byteify, getLocalIP
@@ -66,15 +65,13 @@ def startPi433(config_fp=DEFAULT_CONFIG_FP):
                 group_cf['switches']
             )
         )
-    # Init SSDP server
-    ssdpserver = SSDPServer(switches + groups)
     # Init webserver
     webserver = initServer()
     # Spin up greenlets
-    glts = [spawn(s.run) for s in (switches + groups)] + [spawn(ssdpserver.run)]
+    glts = [spawn(s.run) for s in (switches + groups)]
     # Turn on 12V boost converter and status LED
     turn12VOn()
     turnStatusLEDOn()
-    logging.info('SSDP server and switch servers started')
+    logging.info('Switch servers started')
     webserver.serve_forever()
     joinall(glts)
